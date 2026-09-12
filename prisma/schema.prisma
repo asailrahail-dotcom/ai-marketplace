@@ -1,0 +1,257 @@
+// مشروع / Project — Prisma schema
+// SQLite for a self-contained, real, queryable database (upgrade path to
+// Postgres later is a one-line datasource change since Prisma is DB-agnostic).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Auth: end users ----------
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  phone        String?  @unique
+  passwordHash String
+  verified     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  products    Product[]
+  suppliers   Supplier[]
+  services    Service[]
+  cartItems   CartItem[]
+  favorites   Favorite[]
+  addresses   Address[]
+  projectNeeds ProjectNeed[]
+  ordersAsBuyer  Order[]  @relation("OrdersAsBuyer")
+  reviews     Review[]
+  otpCodes    OtpCode[]
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  target    String // email or phone the code was issued for
+  code      String
+  purpose   String // REGISTER | LOGIN | RESET
+  consumed  Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// ---------- Auth: admin (isolated from end-user auth) ----------
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("ADMIN") // SUPER_ADMIN | ADMIN
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+// ---------- Catalog ----------
+
+model Category {
+  id        String     @id @default(cuid())
+  name      String // Arabic display name
+  nameEn    String?
+  slug      String     @unique
+  order     Int        @default(0)
+  hidden    Boolean    @default(false)
+  parentId  String?
+  parent    Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  keywords  String? // comma-separated Arabic keywords used by the AI matcher
+
+  products  Product[]
+  suppliers Supplier[]
+  services  Service[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  condition   String   @default("NEW") // NEW | USED
+  images      String // JSON array of image paths
+  verified    Boolean  @default(false)
+  hidden      Boolean  @default(false)
+  stock       Int?
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  sellerId    String
+  seller      User     @relation(fields: [sellerId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reviews     Review[]
+  cartItems   CartItem[]
+  favorites   Favorite[]
+  orderItems  OrderItem[]
+}
+
+model Supplier {
+  id          String   @id @default(cuid())
+  name        String
+  logo        String?
+  specialty   String
+  description String?
+  city        String?
+  phone       String?
+  verified    Boolean  @default(false)
+  hidden      Boolean  @default(false)
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime @default(now())
+
+  reviews     Review[]
+  favorites   Favorite[]
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  areas       String // JSON array of service area names
+  image       String?
+  description String?
+  verified    Boolean  @default(false)
+  hidden      Boolean  @default(false)
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  providerId  String
+  provider    User     @relation(fields: [providerId], references: [id])
+  createdAt   DateTime @default(now())
+
+  reviews     Review[]
+  favorites   Favorite[]
+}
+
+model Review {
+  id         String    @id @default(cuid())
+  rating     Int // 1-5
+  comment    String?
+  authorId   String
+  author     User      @relation(fields: [authorId], references: [id])
+  productId  String?
+  product    Product?  @relation(fields: [productId], references: [id])
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id])
+  serviceId  String?
+  service    Service?  @relation(fields: [serviceId], references: [id])
+  createdAt  DateTime  @default(now())
+}
+
+// ---------- Cart / Orders ----------
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  fullName  String
+  phone     String
+  city      String
+  details   String
+  createdAt DateTime @default(now())
+
+  orders Order[]
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  buyerId     String
+  buyer       User        @relation("OrdersAsBuyer", fields: [buyerId], references: [id])
+  addressId   String?
+  address     Address?    @relation(fields: [addressId], references: [id])
+  total       Float
+  status      String      @default("NEW") // NEW | PREPARING | SHIPPING | DELIVERED
+  paymentStatus String    @default("PENDING") // PENDING | PAID
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id])
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  sellerId   String
+  quantity   Int
+  price      Float
+}
+
+// ---------- Favorites ----------
+
+model Favorite {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  productId  String?
+  product    Product?  @relation(fields: [productId], references: [id])
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id])
+  serviceId  String?
+  service    Service?  @relation(fields: [serviceId], references: [id])
+  createdAt  DateTime  @default(now())
+}
+
+// ---------- AI / Project Needs ----------
+
+model ProjectNeed {
+  id           String            @id @default(cuid())
+  userId       String
+  user         User              @relation(fields: [userId], references: [id])
+  rawInput     String
+  projectType  String?
+  projectStage String?
+  createdAt    DateTime          @default(now())
+
+  items ProjectNeedItem[]
+}
+
+model ProjectNeedItem {
+  id             String      @id @default(cuid())
+  projectNeedId  String
+  projectNeed    ProjectNeed @relation(fields: [projectNeedId], references: [id])
+  label          String // e.g. "إضاءة"
+  categorySlug   String?
+  done           Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+}
+
+// ---------- Admin-managed site content ----------
+
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String // JSON-encoded content
+  updatedAt DateTime @updatedAt
+}
