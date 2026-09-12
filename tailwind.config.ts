@@ -5,28 +5,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: '#0B0B0C',
+        ink: '#111111',
         paper: '#FFFFFF',
-        sand: '#F7F6F3',
-        line: '#E7E5E0',
-        muted: '#6B6B6B',
-        accent: '#8A6D3B',
+        sand: '#F5F3EE',
+        line: '#E4E1D8',
+        muted: '#6F6B63',
+        accent: '#A9832E',
       },
       fontFamily: {
-        sans: [
-          'Tajawal',
-          'IBM Plex Sans Arabic',
-          'Segoe UI',
-          'system-ui',
-          '-apple-system',
-          'sans-serif',
-        ],
+        sans: ['var(--font-body)', 'Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
       },
       maxWidth: {
         content: '1280px',
       },
       borderRadius: {
-        card: '0.5rem',
+        card: '0.25rem',
       },
       letterSpacing: {
         tightish: '-0.01em',

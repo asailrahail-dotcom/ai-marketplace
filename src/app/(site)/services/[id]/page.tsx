@@ -28,7 +28,7 @@ export default async function ServiceDetailPage({ params }: { params: { id: stri
   return (
     <div className="container-content section">
       <div className="grid md:grid-cols-2 gap-10">
-        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-sand">
+        <div className="relative aspect-[4/3] rounded-sm overflow-hidden bg-sand">
           <Image
             src={firstImage(service.image, service.name, service.id)}
             alt={service.name}

@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --ink: #0b0b0c;
+  --ink: #111111;
   --paper: #ffffff;
-  --sand: #f7f6f3;
-  --line: #e7e5e0;
-  --muted: #6b6b6b;
-  --accent: #8a6d3b;
+  --sand: #f5f3ee;
+  --line: #e4e1d8;
+  --muted: #6f6b63;
+  --accent: #a9832e;
 }
 
 html {
@@ -52,9 +52,21 @@ body {
 
 .eyebrow {
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  color: var(--muted);
+  letter-spacing: 0.16em;
+  color: var(--accent);
   font-weight: 600;
+}
+
+.eyebrow-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.eyebrow-line::before {
+  content: '';
+  width: 1.5rem;
+  height: 1px;
+  background: var(--accent);
 }
 
 .h1 {
@@ -66,19 +78,19 @@ body {
 
 @media (min-width: 768px) {
   .h1 {
-    font-size: 3.5rem;
+    font-size: 3.25rem;
   }
 }
 
 .h2 {
-  font-size: 1.75rem;
-  line-height: 1.2;
+  font-size: 1.625rem;
+  line-height: 1.25;
   font-weight: 700;
 }
 
 @media (min-width: 768px) {
   .h2 {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
   }
 }
 
@@ -87,8 +99,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  border-radius: 0.125rem;
+  padding: 0.75rem 1.75rem;
   font-weight: 600;
   font-size: 0.9375rem;
   transition: all 0.15s ease;
@@ -100,7 +112,7 @@ body {
   color: var(--paper);
 }
 .btn-primary:hover {
-  background: #262626;
+  background: #2a2a2a;
 }
 
 .btn-secondary {
@@ -122,14 +134,14 @@ body {
 .card {
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 0.75rem;
+  border-radius: 0.25rem;
   overflow: hidden;
 }
 
 .input {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 0.5rem;
+  border-radius: 0.125rem;
   padding: 0.75rem 1rem;
   font-size: 0.9375rem;
   background: var(--paper);
@@ -142,16 +154,16 @@ body {
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.2rem 0.6rem;
-  border-radius: 999px;
+  border-radius: 0.125rem;
 }
 
 .badge-verified {
-  background: #eef2ec;
-  color: #33512f;
+  background: rgba(169, 131, 46, 0.1);
+  color: var(--accent);
 }
 
 .badge-muted {

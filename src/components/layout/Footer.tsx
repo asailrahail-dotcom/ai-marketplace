@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-sand mt-16 mb-16 md:mb-0">
-      <div className="container-content py-12 grid gap-10 md:grid-cols-4">
+    <footer className="bg-ink text-white/70 mt-16 mb-16 md:mb-0 border-t-2 border-accent">
+      <div className="container-content py-14 grid gap-10 md:grid-cols-4">
         <div>
-          <p className="font-bold text-lg">مشروع</p>
-          <p className="text-sm text-muted mt-2 leading-relaxed">
+          <p className="font-bold text-lg text-white">مشروع</p>
+          <p className="text-sm mt-3 leading-relaxed max-w-xs">
             منصة تجمع المنتجات والموردين والخدمات لكل مشروع، مدعومة بالذكاء الاصطناعي.
           </p>
         </div>
@@ -26,7 +26,7 @@ export function Footer() {
           { href: '/add', label: 'أضف منتجك' },
         ]} />
       </div>
-      <div className="container-content py-6 border-t border-line text-xs text-muted">
+      <div className="container-content py-6 border-t border-white/10 text-xs text-white/40">
         © {new Date().getFullYear()} مشروع. جميع الحقوق محفوظة.
       </div>
     </footer>
@@ -36,11 +36,11 @@ export function Footer() {
 function FooterCol({ title, links }: { title: string; links: { href: string; label: string }[] }) {
   return (
     <div>
-      <p className="font-semibold text-sm mb-3">{title}</p>
-      <ul className="space-y-2">
+      <p className="font-semibold text-sm mb-4 text-white eyebrow-line">{title}</p>
+      <ul className="space-y-2.5">
         {links.map((l) => (
           <li key={l.href}>
-            <Link href={l.href} className="text-sm text-muted hover:text-ink">
+            <Link href={l.href} className="text-sm hover:text-white transition-colors">
               {l.label}
             </Link>
           </li>

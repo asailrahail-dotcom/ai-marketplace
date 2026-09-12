@@ -15,11 +15,11 @@ export function AiHero({ title, subtitle }: { title: string; subtitle: string })
   return (
     <section className="section bg-ink text-paper">
       <div className="container-content max-w-3xl text-center">
-        <p className="eyebrow text-white/50 mb-4">مشروع AI</p>
+        <p className="eyebrow eyebrow-line justify-center mb-5">مشروع AI</p>
         <h1 className="h1">{title}</h1>
         <p className="text-white/70 text-lg mt-4 max-w-xl mx-auto">{subtitle}</p>
 
-        <div className="mt-10 bg-white/5 border border-white/15 rounded-2xl p-2 flex flex-col sm:flex-row gap-2">
+        <div className="mt-10 bg-white/5 border border-white/15 rounded-sm p-2 flex flex-col sm:flex-row gap-2">
           <textarea
             value={value}
             onChange={(e) => setValue(e.target.value)}
