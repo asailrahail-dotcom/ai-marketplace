@@ -91,3 +91,4 @@ No payment gateway is wired in yet (no `MOYASAR_SECRET_KEY` /
 `AUTHENTICA_API_KEY` are configured). Checkout creates a real order with
 `paymentStatus: PENDING` rather than faking a successful charge — see
 `.env.example` for where those keys would go server-side only.
+# Last deploy trigger: 2026-09-12T12:27:51Z
