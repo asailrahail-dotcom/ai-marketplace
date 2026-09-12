@@ -16,6 +16,7 @@ export default async function SuppliersPage({
       category: searchParams.category ? { slug: searchParams.category } : undefined,
       name: searchParams.q ? { contains: searchParams.q } : undefined,
     },
+    include: { category: true },
     orderBy: { createdAt: 'desc' },
   });
 
@@ -69,6 +70,7 @@ export default async function SuppliersPage({
               verified={s.verified}
               ratingAvg={s.ratingAvg}
               ratingCount={s.ratingCount}
+              categorySlug={s.category?.slug}
             />
           ))}
         </div>

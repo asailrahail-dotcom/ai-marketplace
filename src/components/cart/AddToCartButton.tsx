@@ -14,7 +14,8 @@ export function AddToCartButton({ productId }: { productId: string }) {
       <button
         type="button"
         disabled={pending}
-        className="btn btn-primary text-sm py-2 px-4 disabled:opacity-60"
+        aria-label="أضف للسلة"
+        className="w-9 h-9 rounded-full bg-green text-white flex items-center justify-center hover:bg-greenDark transition-colors disabled:opacity-60 shrink-0"
         onClick={() => {
           startTransition(async () => {
             const res = await addToCart(productId);
@@ -30,7 +31,9 @@ export function AddToCartButton({ productId }: { productId: string }) {
           });
         }}
       >
-        {pending ? 'جارٍ الإضافة…' : 'أضف للسلة'}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        </svg>
       </button>
       {message && <span className="text-xs text-muted">{message}</span>}
     </div>

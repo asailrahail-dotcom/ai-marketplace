@@ -3,13 +3,22 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+const QUICK_SUGGESTIONS = [
+  'أبدأ مشروع من الصفر',
+  'أجهز شاليه',
+  'أجهز كافيه',
+  'أجدد منزلي',
+  'أبي مكتب جديد',
+];
+
 export function AiHero({ title, subtitle }: { title: string; subtitle: string }) {
   const [value, setValue] = useState('');
   const router = useRouter();
 
-  function submit() {
-    if (!value.trim()) return;
-    router.push(`/ai?q=${encodeURIComponent(value.trim())}`);
+  function submit(text?: string) {
+    const q = (text ?? value).trim();
+    if (!q) return;
+    router.push(`/ai?q=${encodeURIComponent(q)}`);
   }
 
   return (
@@ -33,12 +42,28 @@ export function AiHero({ title, subtitle }: { title: string; subtitle: string })
             placeholder="اكتب احتياج مشروعك هنا…"
             className="flex-1 bg-transparent resize-none px-4 py-3 text-white placeholder:text-white/40 focus:outline-none"
           />
-          <button onClick={submit} className="btn bg-white text-ink font-semibold px-6 py-3 hover:bg-white/90">
+          <button onClick={() => submit()} className="btn bg-green text-white font-semibold px-6 py-3 hover:bg-greenDark">
             ابدأ مع مشروع
           </button>
         </div>
 
-        <p className="text-white/40 text-xs mt-4">
+        <div className="flex flex-wrap justify-center gap-2 mt-6">
+          {QUICK_SUGGESTIONS.map((s) => (
+            <button
+              key={s}
+              type="button"
+              onClick={() => {
+                setValue(s);
+                submit(s);
+              }}
+              className="text-sm px-4 py-1.5 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+
+        <p className="text-white/40 text-xs mt-6">
           مثال: أبي أجهز شاليه من الصفر وأحتاج إضاءة وأثاث ومسبح وكهربائي وسباك.
         </p>
       </div>

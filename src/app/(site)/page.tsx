@@ -14,7 +14,7 @@ export default async function HomePage() {
       where: { hidden: false },
       orderBy: [{ verified: 'desc' }, { createdAt: 'desc' }],
       take: 4,
-      include: { seller: true, _count: { select: { reviews: true } } },
+      include: { seller: true, category: true, _count: { select: { reviews: true } } },
     }),
     prisma.category.findMany({ where: { hidden: false }, orderBy: { order: 'asc' }, take: 8 }),
   ]);
@@ -85,6 +85,7 @@ export default async function HomePage() {
                   verified={p.verified}
                   ratingAvg={p.ratingAvg}
                   ratingCount={p._count.reviews}
+                  categorySlug={p.category?.slug}
                 />
               ))}
             </div>

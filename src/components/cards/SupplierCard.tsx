@@ -12,6 +12,7 @@ export function SupplierCard({
   verified,
   ratingAvg,
   ratingCount,
+  categorySlug,
 }: {
   id: string;
   name: string;
@@ -21,26 +22,33 @@ export function SupplierCard({
   verified: boolean;
   ratingAvg: number;
   ratingCount: number;
+  categorySlug?: string | null;
 }) {
   return (
-    <div className="card p-5 flex flex-col gap-3">
-      <div className="flex items-center gap-3">
-        <div className="relative w-14 h-14 rounded-full overflow-hidden bg-sand shrink-0">
-          <Image src={firstImage(logo, name, id)} alt={name} fill unoptimized className="object-cover" />
-        </div>
-        <div className="min-w-0">
-          <p className="font-semibold truncate">{name}</p>
-          <p className="text-sm text-muted truncate">{specialty}</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 flex-wrap">
-        {verified && <VerifiedBadge />}
-        <RatingBadge average={ratingAvg} count={ratingCount} />
-        {city && <span className="badge badge-muted">{city}</span>}
-      </div>
-      <Link href={`/suppliers/${id}`} className="btn btn-secondary mt-1 w-full">
-        عرض المورد
+    <div className="card group flex flex-col">
+      <Link href={`/suppliers/${id}`} className="block relative aspect-[4/3] overflow-hidden bg-sand">
+        <Image
+          src={firstImage(logo, name, id, categorySlug)}
+          alt={name}
+          fill
+          unoptimized
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
       </Link>
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <Link href={`/suppliers/${id}`} className="font-semibold leading-snug hover:underline">
+          {name}
+        </Link>
+        <p className="text-sm text-muted">{specialty}</p>
+        <div className="flex items-center gap-2 flex-wrap">
+          {verified && <VerifiedBadge />}
+          <RatingBadge average={ratingAvg} count={ratingCount} />
+          {city && <span className="badge badge-muted">{city}</span>}
+        </div>
+        <Link href={`/suppliers/${id}`} className="btn btn-secondary mt-auto">
+          عرض المورد
+        </Link>
+      </div>
     </div>
   );
 }

@@ -14,17 +14,19 @@ export default async function DiscoverPage() {
       where: { hidden: false },
       orderBy: [{ verified: 'desc' }, { createdAt: 'desc' }],
       take: 4,
-      include: { seller: true, _count: { select: { reviews: true } } },
+      include: { seller: true, category: true, _count: { select: { reviews: true } } },
     }),
     prisma.supplier.findMany({
       where: { hidden: false },
       orderBy: [{ verified: 'desc' }, { createdAt: 'desc' }],
       take: 3,
+      include: { category: true },
     }),
     prisma.service.findMany({
       where: { hidden: false },
       orderBy: [{ verified: 'desc' }, { createdAt: 'desc' }],
       take: 3,
+      include: { category: true },
     }),
   ]);
 
@@ -80,6 +82,7 @@ export default async function DiscoverPage() {
                 verified={p.verified}
                 ratingAvg={p.ratingAvg}
                 ratingCount={p._count.reviews}
+                categorySlug={p.category?.slug}
               />
             ))}
           </div>
@@ -108,6 +111,7 @@ export default async function DiscoverPage() {
                 verified={s.verified}
                 ratingAvg={s.ratingAvg}
                 ratingCount={s.ratingCount}
+                categorySlug={s.category?.slug}
               />
             ))}
           </div>
@@ -136,6 +140,7 @@ export default async function DiscoverPage() {
                 verified={s.verified}
                 ratingAvg={s.ratingAvg}
                 ratingCount={s.ratingCount}
+                categorySlug={s.category?.slug}
               />
             ))}
           </div>

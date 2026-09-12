@@ -30,7 +30,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
       <div className="grid md:grid-cols-2 gap-10">
         <div className="relative aspect-[4/3] rounded-sm overflow-hidden bg-sand">
           <Image
-            src={firstImage(product.images, product.name, product.id)}
+            src={firstImage(product.images, product.name, product.id, product.category?.slug)}
             alt={product.name}
             fill
             unoptimized

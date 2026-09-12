@@ -11,6 +11,9 @@ const config: Config = {
         line: '#E4E1D8',
         muted: '#6F6B63',
         accent: '#A9832E',
+        green: '#2E6F52',
+        greenDark: '#255A43',
+        forest: '#122A1E',
       },
       fontFamily: {
         sans: ['var(--font-body)', 'Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],

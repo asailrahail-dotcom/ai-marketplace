@@ -12,6 +12,7 @@ export function ServiceCard({
   verified,
   ratingAvg,
   ratingCount,
+  categorySlug,
 }: {
   id: string;
   name: string;
@@ -21,12 +22,13 @@ export function ServiceCard({
   verified: boolean;
   ratingAvg: number;
   ratingCount: number;
+  categorySlug?: string | null;
 }) {
   return (
     <div className="card group flex flex-col">
       <Link href={`/services/${id}`} className="block relative aspect-[4/3] overflow-hidden bg-sand">
         <Image
-          src={firstImage(image, name, id)}
+          src={firstImage(image, name, id, categorySlug)}
           alt={name}
           fill
           unoptimized

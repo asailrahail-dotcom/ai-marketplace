@@ -19,15 +19,15 @@ export default async function SearchPage({
     q && tab !== 'suppliers' && tab !== 'services'
       ? prisma.product.findMany({
           where: { hidden: false, name: { contains: q } },
-          include: { seller: true, _count: { select: { reviews: true } } },
+          include: { seller: true, category: true, _count: { select: { reviews: true } } },
           take: 24,
         })
       : Promise.resolve([]),
     q && tab !== 'products' && tab !== 'services'
-      ? prisma.supplier.findMany({ where: { hidden: false, name: { contains: q } }, take: 24 })
+      ? prisma.supplier.findMany({ where: { hidden: false, name: { contains: q } }, include: { category: true }, take: 24 })
       : Promise.resolve([]),
     q && tab !== 'products' && tab !== 'suppliers'
-      ? prisma.service.findMany({ where: { hidden: false, name: { contains: q } }, take: 24 })
+      ? prisma.service.findMany({ where: { hidden: false, name: { contains: q } }, include: { category: true }, take: 24 })
       : Promise.resolve([]),
   ]);
 
@@ -110,6 +110,7 @@ export default async function SearchPage({
                     verified={p.verified}
                     ratingAvg={p.ratingAvg}
                     ratingCount={p._count.reviews}
+                    categorySlug={p.category?.slug}
                   />
                 ))}
               </div>
@@ -131,6 +132,7 @@ export default async function SearchPage({
                     verified={s.verified}
                     ratingAvg={s.ratingAvg}
                     ratingCount={s.ratingCount}
+                    categorySlug={s.category?.slug}
                   />
                 ))}
               </div>
@@ -152,6 +154,7 @@ export default async function SearchPage({
                     verified={s.verified}
                     ratingAvg={s.ratingAvg}
                     ratingCount={s.ratingCount}
+                    categorySlug={s.category?.slug}
                   />
                 ))}
               </div>

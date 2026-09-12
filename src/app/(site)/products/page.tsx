@@ -17,7 +17,7 @@ export default async function ProductsPage({
       condition: searchParams.condition || undefined,
       name: searchParams.q ? { contains: searchParams.q } : undefined,
     },
-    include: { seller: true, _count: { select: { reviews: true } } },
+    include: { seller: true, category: true, _count: { select: { reviews: true } } },
     orderBy: { createdAt: 'desc' },
   });
 
@@ -82,6 +82,7 @@ export default async function ProductsPage({
               verified={p.verified}
               ratingAvg={p.ratingAvg}
               ratingCount={p._count.reviews}
+              categorySlug={p.category?.slug}
             />
           ))}
         </div>

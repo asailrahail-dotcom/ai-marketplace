@@ -2,28 +2,23 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="bg-ink text-white/70 mt-16 mb-16 md:mb-0 border-t-2 border-accent">
-      <div className="container-content py-14 grid gap-10 md:grid-cols-4">
+    <footer className="bg-forest text-white/70 mt-16 mb-16 md:mb-0">
+      <div className="container-content py-14 grid gap-10 md:grid-cols-3">
         <div>
           <p className="font-bold text-lg text-white">مشروع</p>
           <p className="text-sm mt-3 leading-relaxed max-w-xs">
             منصة تجمع المنتجات والموردين والخدمات لكل مشروع، مدعومة بالذكاء الاصطناعي.
           </p>
         </div>
-        <FooterCol title="السوق" links={[
-          { href: '/products', label: 'المنتجات' },
+        <FooterCol title="المنصة" links={[
+          { href: '/products', label: 'اكتشف المنتجات' },
           { href: '/suppliers', label: 'الموردون' },
           { href: '/services', label: 'الخدمات' },
         ]} />
-        <FooterCol title="مشروعك" links={[
-          { href: '/ai', label: 'مشروع AI' },
-          { href: '/project-needs', label: 'احتياجات مشروعي' },
-          { href: '/orders', label: 'طلباتي' },
-        ]} />
-        <FooterCol title="الحساب" links={[
-          { href: '/login', label: 'تسجيل الدخول' },
-          { href: '/register', label: 'إنشاء حساب' },
-          { href: '/add', label: 'أضف منتجك' },
+        <FooterCol title="حسابك" links={[
+          { href: '/add-product', label: 'أضف منتجك' },
+          { href: '/add-supplier', label: 'سجّل كمورد' },
+          { href: '/add-service', label: 'سجّل كمقدم خدمة' },
         ]} />
       </div>
       <div className="container-content py-6 border-t border-white/10 text-xs text-white/40">

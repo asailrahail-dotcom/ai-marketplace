@@ -30,7 +30,7 @@ export default async function ServiceDetailPage({ params }: { params: { id: stri
       <div className="grid md:grid-cols-2 gap-10">
         <div className="relative aspect-[4/3] rounded-sm overflow-hidden bg-sand">
           <Image
-            src={firstImage(service.image, service.name, service.id)}
+            src={firstImage(service.image, service.name, service.id, service.category?.slug)}
             alt={service.name}
             fill
             unoptimized
