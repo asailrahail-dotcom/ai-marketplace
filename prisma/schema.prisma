@@ -1,13 +1,14 @@
 // مشروع / Project — Prisma schema
-// SQLite for a self-contained, real, queryable database (upgrade path to
-// Postgres later is a one-line datasource change since Prisma is DB-agnostic).
+// PostgreSQL so the app can be deployed to a normal serverless host (Vercel,
+// etc.) with a real persistent database — a serverless filesystem cannot
+// keep a SQLite file across requests/deploys the way this needs.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

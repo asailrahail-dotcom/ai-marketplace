@@ -7,17 +7,45 @@ fully isolated admin console.
 ## Stack
 
 - Next.js 14 (App Router, Server Actions), TypeScript, Tailwind CSS
-- Prisma ORM + SQLite (swap the `datasource` in `prisma/schema.prisma` for
-  Postgres/MySQL later — the rest of the app is unaffected)
+- Prisma ORM + PostgreSQL (works with any Postgres provider — Vercel
+  Postgres, Neon, Supabase, or a self-hosted instance)
 - Cookie-based sessions signed with `jose` (separate secrets/cookies for
   end users vs. admins — see "Admin isolation" below)
 
-## Getting started
+## Deploy without a terminal (Vercel)
+
+The database is PostgreSQL, so the app can run on a normal serverless host
+with a real public URL — no local install required. The build script
+(`vercel-build` in `package.json`) provisions the schema and demo data
+automatically on every deploy, so this is entirely point-and-click:
+
+1. Go to https://vercel.com and sign up (the "Continue with GitHub" option
+   is the fastest — no separate password to create).
+2. Click **Add New… → Project**, then import this repository
+   (`asailrahail-dotcom/ai-marketplace`) and pick the branch that has this
+   code.
+3. Before clicking Deploy, open **Storage** in the Vercel dashboard for the
+   new project → **Create Database → Postgres**. Connect it to the project —
+   this automatically sets `DATABASE_URL` for you.
+4. In **Settings → Environment Variables**, add two more variables (any
+   long random string works — ask whoever set this up for ready-made
+   values, or generate your own):
+   - `USER_JWT_SECRET`
+   - `ADMIN_JWT_SECRET`
+5. Click **Deploy**. Vercel gives you a public `https://…vercel.app` URL
+   when it finishes — that link works from any device, no installation
+   needed.
+6. Admin console is at `<your-url>/admin/login` — see demo credentials
+   below.
+
+## Local setup (optional, for development)
 
 ```bash
 npm install
-cp .env.example .env   # then edit the two JWT secrets
-npx prisma db push     # creates prisma/dev.db
+cp .env.example .env   # DATABASE_URL needs a real Postgres connection string
+                        # (e.g. from the Vercel/Neon/Supabase database above,
+                        # or a local Postgres install) + the two JWT secrets
+npx prisma db push     # creates the tables
 npm run db:seed        # demo/seed data — see credentials below
 npm run dev
 ```

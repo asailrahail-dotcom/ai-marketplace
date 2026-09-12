@@ -69,7 +69,42 @@ async function main() {
     });
   }
 
-  // --- Products ---
+  // --- Products / Suppliers / Services / Reviews ---
+  // Guarded so this script is safe to re-run on every deploy/build (e.g. a
+  // Vercel build step) without duplicating demo listings each time.
+  const alreadySeeded = (await prisma.product.count()) > 0;
+  if (alreadySeeded) {
+    console.log('Demo listings already present — skipping catalog seed.');
+  } else {
+    await seedCatalog(categories, sellers);
+  }
+
+  // --- Admin-managed homepage content ---
+  await prisma.siteContent.upsert({
+    where: { key: 'homepage' },
+    update: {},
+    create: {
+      key: 'homepage',
+      value: JSON.stringify({
+        heroTitle: 'وش مشروعك؟ وش تحتاج؟',
+        heroSubtitle: 'اكتب احتياجك، وخلي مشروع يساعدك تلقى المنتجات والموردين والخدمات المناسبة.',
+        discoverTitle: 'اكتشف المنتجات والموردين والخدمات',
+        discoverSubtitle: 'كل ما تحتاجه لمشروعك، في مكان واحد.',
+      }),
+    },
+  });
+
+  console.log('\n--- Demo credentials ---');
+  console.log(`Admin:  admin@mashroo.sa / ${adminPassword}`);
+  console.log('Sellers: seller1@mashroo.sa / Demo@12345 (and seller2, seller3)');
+  console.log('------------------------\n');
+  console.log(`Seed complete. Admin id: ${admin.id}`);
+}
+
+async function seedCatalog(
+  categories: Record<string, { id: string }>,
+  sellers: { id: string }[],
+) {
   const productSeeds = [
     { name: 'طقم إضاءة سقفية LED (٦ قطع)', price: 620, categorySlug: 'lighting', condition: 'NEW', verified: true },
     { name: 'كشاف حديقة خارجي مقاوم للماء', price: 145, categorySlug: 'lighting', condition: 'NEW', verified: false },
@@ -168,27 +203,6 @@ async function main() {
       { rating: 4, comment: 'التزام بالمواعيد.', authorId: reviewer.id, serviceId: services[0].id },
     ],
   });
-
-  // --- Admin-managed homepage content ---
-  await prisma.siteContent.upsert({
-    where: { key: 'homepage' },
-    update: {},
-    create: {
-      key: 'homepage',
-      value: JSON.stringify({
-        heroTitle: 'وش مشروعك؟ وش تحتاج؟',
-        heroSubtitle: 'اكتب احتياجك، وخلي مشروع يساعدك تلقى المنتجات والموردين والخدمات المناسبة.',
-        discoverTitle: 'اكتشف المنتجات والموردين والخدمات',
-        discoverSubtitle: 'كل ما تحتاجه لمشروعك، في مكان واحد.',
-      }),
-    },
-  });
-
-  console.log('\n--- Demo credentials ---');
-  console.log(`Admin:  admin@mashroo.sa / ${adminPassword}`);
-  console.log('Sellers: seller1@mashroo.sa / Demo@12345 (and seller2, seller3)');
-  console.log('------------------------\n');
-  console.log(`Seed complete. Admin id: ${admin.id}`);
 }
 
 main()
