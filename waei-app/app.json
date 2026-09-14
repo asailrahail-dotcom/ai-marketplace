@@ -2,6 +2,7 @@
   "expo": {
     "name": "وعي",
     "slug": "waei-app",
+    "owner": "rahails-team",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
