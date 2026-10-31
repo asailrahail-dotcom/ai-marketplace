@@ -85,6 +85,20 @@ function Photo({ src, className = '', parallax }: { src: string; className?: str
   );
 }
 
+function Clip({ src, poster, className = '' }: { src: string; poster: string; className?: string }) {
+  return (
+    <div className={`rh-photo rh-clip ${className}`}>
+      <video src={src} poster={poster} muted loop playsInline autoPlay preload="auto" data-autoplay aria-hidden />
+    </div>
+  );
+}
+
+const EXPERIENCES = [
+  { t: 'الطيران', clip: MEDIA.video.flight },
+  { t: 'الخيول', clip: MEDIA.video.horses },
+  { t: 'البقيات', clip: MEDIA.video.buggies },
+];
+
 /** The profile's outline zigzag motif (tent / mountain line). */
 function Zigzag({ className = '' }: { className?: string }) {
   const row = (y: number, h: number) => {
@@ -179,6 +193,7 @@ export function RahailPresentation() {
           <div className="rh-cover__lines" aria-hidden />
           <div className="rh-cover__window">
             <Photo src={MEDIA.cover} />
+            <Clip src={MEDIA.video.flight.src} poster={MEDIA.video.flight.poster} className="rh-cover__clip" />
             <div className="rh-cover__shade" />
           </div>
           <div className="rh-cover__frame" aria-hidden />
@@ -355,6 +370,24 @@ export function RahailPresentation() {
             <p className="rh-lead" data-reveal>
               تصميم باقات متكاملة تلبي اهتمامات السائح بالتعاون مع الشركات السياحية والمرشدين ومقدمي الخدمات.
             </p>
+          </div>
+
+          {/* Experiences in motion — three arched video windows */}
+          <div className="rh-reel">
+            <div className="rh-container rh-reel__grid">
+              {EXPERIENCES.map((e, i) => (
+                <figure key={e.t} className={`rh-reel__item rh-reel__item--${i + 1}`}>
+                  <div className="rh-reel__arch">
+                    <Clip src={e.clip.src} poster={e.clip.poster} />
+                    <span className="rh-reel__frame" aria-hidden />
+                  </div>
+                  <figcaption className="rh-reel__label">
+                    <span className="rh-reel__n rh-en">{pad(i + 1)}</span>
+                    <span className="rh-reel__t">{e.t}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
 
           {/* Moving strip of experiences */}

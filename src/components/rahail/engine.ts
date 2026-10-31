@@ -144,6 +144,7 @@ export function initRahail(scope: HTMLElement): () => void {
           .fromTo('.rh-cover__window', { clipPath: startClip }, { clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0px 0px)', ease: 'power1.inOut', duration: 1 }, 0)
           .fromTo('.rh-cover__window img', { scale: 1.45 }, { scale: 1.05, ease: 'none', duration: 1.5 }, 0)
           .to('.rh-cover__frame', { scale: 1.6, opacity: 0, ease: 'power1.in', duration: 0.6 }, 0)
+          .to('.rh-cover__clip', { opacity: 0, ease: 'power1.inOut', duration: 0.45 }, 0.3)
           .to('.rh-cover__side--start', { xPercent: desktop ? 45 : 0, yPercent: desktop ? 0 : -60, opacity: 0, duration: 0.7 }, 0)
           .to('.rh-cover__side--end', { xPercent: desktop ? -45 : 0, yPercent: desktop ? 0 : 60, opacity: 0, duration: 0.7 }, 0)
           .to('.rh-cover__hint', { opacity: 0, duration: 0.2 }, 0)
@@ -199,6 +200,21 @@ export function initRahail(scope: HTMLElement): () => void {
         } else {
           qa('.rh-step').forEach((s) => {
             gsap.from(s, { y: 40, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: s, start: 'top 88%' } });
+          });
+        }
+
+        /* Experience reel — arches open one after another, then drift at different speeds */
+        gsap.fromTo('.rh-reel__arch', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 6px 6px)' }, {
+          clipPath: 'inset(0% 0% 0% 0% round 999px 999px 6px 6px)', duration: 1.8, ease: 'expo.inOut', stagger: 0.18,
+          scrollTrigger: { trigger: '.rh-reel', start: 'top 75%' },
+        });
+        gsap.from('.rh-reel__label', { y: 30, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.18, delay: 0.8, scrollTrigger: { trigger: '.rh-reel', start: 'top 75%' } });
+        if (desktop) {
+          qa('.rh-reel__item').forEach((el, i) => {
+            gsap.fromTo(el, { y: [80, 0, 120][i] }, {
+              y: [-40, -100, -20][i], ease: 'none',
+              scrollTrigger: { trigger: '.rh-reel', start: 'top bottom', end: 'bottom top', scrub: true },
+            });
           });
         }
 
@@ -301,12 +317,28 @@ export function initRahail(scope: HTMLElement): () => void {
     setActive(0);
   }, scope);
 
+  /* ---------- videos play only while on screen ---------- */
+  const videos = Array.from(scope.querySelectorAll<HTMLVideoElement>('video[data-autoplay]'));
+  let io: IntersectionObserver | null = null;
+  if ('IntersectionObserver' in window) {
+    io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        const v = en.target as HTMLVideoElement;
+        if (en.isIntersecting && !reduce) v.play().catch(() => {});
+        else v.pause();
+      });
+    }, { threshold: 0.05 });
+    videos.forEach((v) => io!.observe(v));
+  }
+  if (reduce) videos.forEach((v) => v.pause());
+
   const refresh = () => ScrollTrigger.refresh();
   on(window, 'load', refresh);
   document.fonts?.ready.then(refresh);
 
   return () => {
     listeners.forEach(([t, ev, fn]) => t.removeEventListener(ev, fn));
+    io?.disconnect();
     ctx.revert();
     gsap.ticker.remove(raf);
     lenis?.destroy();

@@ -573,3 +573,57 @@ html.lenis, html.lenis body { height: auto; }
   .rh-steps__track { flex-wrap: wrap; width: auto; }
   .rh-kb img, .rh-film__track, .rh-reward__shine, .rh-cover__hint i { animation: none; }
 }
+
+/* =====================================================================
+   Video loops
+   ===================================================================== */
+.rh-clip { background: var(--rh-deep); }
+.rh-clip video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.rh-cover__clip { z-index: 1; }
+.rh-cover__shade { z-index: 2; }
+
+/* Experience reel: three arched windows, like the cover window */
+.rh-reel { position: relative; padding-block: clamp(2rem, 6vh, 4rem) clamp(5rem, 12vh, 8rem); }
+.rh-reel__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 3vw, 3rem); align-items: start; }
+.rh-reel__item { margin: 0; display: grid; gap: 1.2rem; will-change: transform; }
+.rh-reel__arch {
+  position: relative;
+  aspect-ratio: 9 / 15;
+  max-width: 100%;
+  border-radius: 999px 999px 6px 6px;
+  overflow: hidden;
+  box-shadow: 0 50px 80px -40px rgba(42, 18, 9, 0.65);
+  transition: transform 1s var(--rh-ease);
+}
+.rh-reel__item:hover .rh-reel__arch { transform: translateY(-10px); }
+.rh-reel__arch .rh-photo { border-radius: inherit; }
+.rh-reel__arch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, transparent 55%, rgba(42, 18, 9, 0.55));
+  pointer-events: none;
+}
+.rh-reel__frame {
+  position: absolute;
+  inset: 10px;
+  z-index: 1;
+  border-radius: 999px 999px 4px 4px;
+  border: 1px solid rgba(251, 239, 217, 0.45);
+  pointer-events: none;
+}
+.rh-reel__label { display: flex; align-items: baseline; justify-content: center; gap: 0.8rem; }
+.rh-reel__n { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--rh-copper); }
+.rh-reel__t { font-family: var(--rh-font-display), serif; font-weight: 600; font-size: clamp(1.5rem, 2.4vw, 2.3rem); color: var(--rh-rust); }
+
+@media (max-width: 899.98px) {
+  .rh-reel__grid { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .rh-reel__arch { aspect-ratio: 9 / 16; }
+  .rh-reel__frame { inset: 5px; }
+  .rh-reel__t { font-size: 1.05rem; }
+  .rh-reel__n { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rh-reel__arch { clip-path: none; }
+}

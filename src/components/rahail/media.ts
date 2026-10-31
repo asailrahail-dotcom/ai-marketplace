@@ -28,6 +28,12 @@ export const MEDIA = {
     p('mud-wall.jpg'),
     p('design.jpg'),
   ],
+  /** Short muted loops (from the client's supplied clips) */
+  video: {
+    flight: { src: p('flight.mp4'), poster: p('flight-poster.jpg') },
+    horses: { src: p('horses.mp4'), poster: p('horses-poster.jpg') },
+    buggies: { src: p('buggies.mp4'), poster: p('buggies-poster.jpg') },
+  },
   texture: p('texture.jpg'),
   closing: p('cover.jpg'),
 } as const;
