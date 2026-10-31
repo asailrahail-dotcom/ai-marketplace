@@ -93,8 +93,9 @@ function Clip({ src, poster, className = '' }: { src: string; poster: string; cl
   );
 }
 
+/* The flight clip is used only on the cover, as the guest's arrival —
+   it is not presented as an experience. */
 const EXPERIENCES = [
-  { t: 'الطيران', clip: MEDIA.video.flight },
   { t: 'الخيول', clip: MEDIA.video.horses },
   { t: 'البقيات', clip: MEDIA.video.buggies },
 ];

@@ -211,8 +211,8 @@ export function initRahail(scope: HTMLElement): () => void {
         gsap.from('.rh-reel__label', { y: 30, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.18, delay: 0.8, scrollTrigger: { trigger: '.rh-reel', start: 'top 75%' } });
         if (desktop) {
           qa('.rh-reel__item').forEach((el, i) => {
-            gsap.fromTo(el, { y: [80, 0, 120][i] }, {
-              y: [-40, -100, -20][i], ease: 'none',
+            gsap.fromTo(el, { y: [40, 140][i] ?? 0 }, {
+              y: [-60, 0][i] ?? 0, ease: 'none',
               scrollTrigger: { trigger: '.rh-reel', start: 'top bottom', end: 'bottom top', scrub: true },
             });
           });

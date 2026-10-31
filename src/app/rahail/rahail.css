@@ -584,7 +584,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Experience reel: three arched windows, like the cover window */
 .rh-reel { position: relative; padding-block: clamp(2rem, 6vh, 4rem) clamp(5rem, 12vh, 8rem); }
-.rh-reel__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 3vw, 3rem); align-items: start; }
+.rh-reel__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.2rem, 5vw, 6rem); align-items: start; max-width: 1000px; }
 .rh-reel__item { margin: 0; display: grid; gap: 1.2rem; will-change: transform; }
 .rh-reel__arch {
   position: relative;
@@ -618,10 +618,10 @@ html.lenis, html.lenis body { height: auto; }
 .rh-reel__t { font-family: var(--rh-font-display), serif; font-weight: 600; font-size: clamp(1.5rem, 2.4vw, 2.3rem); color: var(--rh-rust); }
 
 @media (max-width: 899.98px) {
-  .rh-reel__grid { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .rh-reel__grid { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
   .rh-reel__arch { aspect-ratio: 9 / 16; }
   .rh-reel__frame { inset: 5px; }
-  .rh-reel__t { font-size: 1.05rem; }
+  .rh-reel__t { font-size: 1.25rem; }
   .rh-reel__n { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
