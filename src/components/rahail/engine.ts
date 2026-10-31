@@ -144,7 +144,6 @@ export function initRahail(scope: HTMLElement): () => void {
           .fromTo('.rh-cover__window', { clipPath: startClip }, { clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0px 0px)', ease: 'power1.inOut', duration: 1 }, 0)
           .fromTo('.rh-cover__window img', { scale: 1.45 }, { scale: 1.05, ease: 'none', duration: 1.5 }, 0)
           .to('.rh-cover__frame', { scale: 1.6, opacity: 0, ease: 'power1.in', duration: 0.6 }, 0)
-          .to('.rh-cover__clip', { opacity: 0, ease: 'power1.inOut', duration: 0.45 }, 0.3)
           .to('.rh-cover__side--start', { xPercent: desktop ? 45 : 0, yPercent: desktop ? 0 : -60, opacity: 0, duration: 0.7 }, 0)
           .to('.rh-cover__side--end', { xPercent: desktop ? -45 : 0, yPercent: desktop ? 0 : 60, opacity: 0, duration: 0.7 }, 0)
           .to('.rh-cover__hint', { opacity: 0, duration: 0.2 }, 0)

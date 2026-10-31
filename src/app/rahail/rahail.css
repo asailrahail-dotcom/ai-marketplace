@@ -210,7 +210,7 @@ html.lenis, html.lenis body { height: auto; }
     linear-gradient(62deg, transparent 49.85%, var(--rh-sand) 50%, transparent 50.15%) 0 0 / 100% 100%;
 }
 .rh-cover__window { position: absolute; inset: 0; clip-path: inset(15% 37% 11% 37% round 999px 999px 14px 14px); will-change: clip-path; }
-.rh-cover__shade { position: absolute; inset: 0; opacity: 0; background: linear-gradient(180deg, rgba(42, 18, 9, 0.45), rgba(42, 18, 9, 0.35) 45%, rgba(42, 18, 9, 0.8)); }
+.rh-cover__shade { position: absolute; inset: 0; opacity: 0; background: radial-gradient(55% 55% at 50% 48%, rgba(42, 18, 9, 0.62), rgba(42, 18, 9, 0.25) 75%), linear-gradient(180deg, rgba(42, 18, 9, 0.35), transparent 35%, rgba(42, 18, 9, 0.8)); }
 .rh-cover__frame {
   position: absolute;
   inset: 15% 37% 11% 37%;
@@ -580,6 +580,8 @@ html.lenis, html.lenis body { height: auto; }
 .rh-clip { background: var(--rh-deep); }
 .rh-clip video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .rh-cover__clip { z-index: 1; }
+/* keep the aircraft in frame when the window opens to full width */
+.rh-cover__clip video { object-position: 50% 42%; }
 .rh-cover__shade { z-index: 2; }
 
 /* Experience reel: three arched windows, like the cover window */
