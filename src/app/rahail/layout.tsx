@@ -1,17 +1,19 @@
 import type { Metadata, Viewport } from 'next';
-import { Tajawal, Jost } from 'next/font/google';
+import { El_Messiri, Jost } from 'next/font/google';
 import './rahail.css';
 
-const display = Tajawal({
+/* Display face chosen to echo the profile's headline lettering;
+   body copy uses the site's IBM Plex Sans Arabic (--font-body). */
+const display = El_Messiri({
   subsets: ['arabic', 'latin'],
-  weight: ['200', '300', '400', '500', '700'],
+  weight: ['400', '500', '600', '700'],
   variable: '--rh-font-display',
   display: 'swap',
 });
 
 const latin = Jost({
   subsets: ['latin'],
-  weight: ['200', '300', '400', '500'],
+  weight: ['300', '400', '500'],
   variable: '--rh-font-latin',
   display: 'swap',
 });
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#141311',
+  themeColor: '#2a1209',
 };
 
 export default function RahailLayout({ children }: { children: React.ReactNode }) {
