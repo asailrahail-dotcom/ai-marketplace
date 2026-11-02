@@ -210,8 +210,8 @@ export function initRahail(scope: HTMLElement): () => void {
         gsap.from('.rh-reel__label', { y: 30, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.18, delay: 0.8, scrollTrigger: { trigger: '.rh-reel', start: 'top 75%' } });
         if (desktop) {
           qa('.rh-reel__item').forEach((el, i) => {
-            gsap.fromTo(el, { y: [40, 140][i] ?? 0 }, {
-              y: [-60, 0][i] ?? 0, ease: 'none',
+            gsap.fromTo(el, { y: [60, 0, 120][i] ?? 0 }, {
+              y: [-40, -100, -20][i] ?? 0, ease: 'none',
               scrollTrigger: { trigger: '.rh-reel', start: 'top bottom', end: 'bottom top', scrub: true },
             });
           });
@@ -270,20 +270,34 @@ export function initRahail(scope: HTMLElement): () => void {
           });
         });
 
-        /* 5 — cards stagger in, icons draw themselves */
-        gsap.from('.rh-model', { y: 60, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.12, scrollTrigger: { trigger: '.rh-models', start: 'top 82%' } });
-        gsap.fromTo('.rh-model .rh-draw', { strokeDashoffset: 1 }, {
-          strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut', stagger: 0.04,
-          scrollTrigger: { trigger: '.rh-models', start: 'top 75%' },
+        /* Staggered groups and self-drawing icons */
+        qa('[data-stagger]').forEach((el) => {
+          gsap.from(el.children, { y: 60, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.12, scrollTrigger: { trigger: el, start: 'top 85%' } });
+        });
+        qa('[data-draw]').forEach((el) => {
+          gsap.fromTo(el.querySelectorAll('.rh-draw'), { strokeDashoffset: 1 }, {
+            strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut', stagger: 0.05,
+            scrollTrigger: { trigger: el, start: 'top 80%' },
+          });
         });
 
-        /* 6 — giant outline type drifts, reward card rises */
-        gsap.fromTo('.rh-top__giant', { xPercent: 12 }, {
-          xPercent: -12, ease: 'none',
-          scrollTrigger: { trigger: '.rh-top', start: 'top bottom', end: 'bottom top', scrub: true },
+        /* Programme hero */
+        gsap.from('.rh-idea', { y: 50, opacity: 0, scale: 0.97, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.rh-idea', start: 'top 88%' } });
+
+        /* Mechanism — the line fills as you read down */
+        gsap.fromTo('.rh-mech__line i', { scaleY: 0 }, {
+          scaleY: 1, ease: 'none',
+          scrollTrigger: { trigger: '.rh-mech__list', start: 'top 70%', end: 'bottom 60%', scrub: true },
         });
-        gsap.from('.rh-reward', { y: 60, opacity: 0, scale: 0.96, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.rh-reward', start: 'top 85%' } });
-        gsap.from('.rh-goal-chip', { y: 24, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: '.rh-goals', start: 'top 92%' } });
+        qa('.rh-mech__item').forEach((it) => {
+          gsap.from(it, { x: -40, opacity: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: it, start: 'top 85%' } });
+        });
+
+        /* Parties — connectors draw from Rahail to each party */
+        gsap.fromTo('.rh-hub__net path', { strokeDashoffset: 1 }, {
+          strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut',
+          scrollTrigger: { trigger: '.rh-hub', start: 'top 70%' },
+        });
 
         /* Closing */
         gsap.fromTo('.rh-closing img', { scale: 1.3 }, {

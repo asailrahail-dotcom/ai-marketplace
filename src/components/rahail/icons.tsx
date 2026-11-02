@@ -66,3 +66,46 @@ export function ArrowIcon({ className, dir = 'down' }: IconProps & { dir?: 'up' 
     </svg>
   );
 }
+
+/** Local resident — person with a place pin */
+export function IconLocal({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path pathLength={1} className="rh-draw" d="M18 20a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM6 42c0-8 5.4-14 12-14s12 6 12 14" />
+      <path pathLength={1} className="rh-draw" d="M37 30s-7-7.2-7-12.5a7 7 0 0 1 14 0C44 22.8 37 30 37 30Z" />
+      <path pathLength={1} className="rh-draw" d="M37 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+    </svg>
+  );
+}
+
+/** Traveller — suitcase */
+export function IconTraveler({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path pathLength={1} className="rh-draw" d="M8 16h32v24H8Z" />
+      <path pathLength={1} className="rh-draw" d="M18 16v-5h12v5M16 16v24M32 16v24" />
+      <path pathLength={1} className="rh-draw" d="M14 40v3M34 40v3" />
+    </svg>
+  );
+}
+
+/** Service provider — tent / hospitality */
+export function IconProvider({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path pathLength={1} className="rh-draw" d="M4 40 24 8l20 32Z" />
+      <path pathLength={1} className="rh-draw" d="M24 8v32M18 40l6-12 6 12" />
+      <path pathLength={1} className="rh-draw" d="M2 40h44" />
+    </svg>
+  );
+}
+
+/** Check mark inside the brand chevron */
+export function IconCheck({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path pathLength={1} className="rh-draw" d="M24 4 44 40H4Z" />
+      <path pathLength={1} className="rh-draw" d="m16 28 6 6 10-12" />
+    </svg>
+  );
+}

@@ -33,6 +33,15 @@ export const MEDIA = {
     flight: { src: p('flight.mp4'), poster: p('flight-poster.jpg') },
     horses: { src: p('horses.mp4'), poster: p('horses-poster.jpg') },
     buggies: { src: p('buggies.mp4'), poster: p('buggies-poster.jpg') },
+    astronomy: { src: p('astronomy.mp4'), poster: p('astronomy-poster.jpg') },
+  },
+  /** Partner programme */
+  program: p('mountain-lodge.jpg'),
+  tracks: {
+    heritage: p('mud-wall.jpg'),
+    nature: p('desert-view.jpg'),
+    corporate: p('site-visit.jpg'),
+    women: p('welcome.jpg'),
   },
   texture: p('texture.jpg'),
   closing: p('cover.jpg'),

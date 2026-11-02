@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { initRahail } from './engine';
 import { MEDIA } from './media';
 import { LOGO_PATH, LOGO_VIEWBOX } from './logo-path';
-import { ArrowIcon, IconAffiliate, IconB2B, IconB2B2C, IconB2C } from './icons';
+import { ArrowIcon, IconCheck, IconLocal, IconProvider, IconTraveler } from './icons';
 
 /* ------------------------------------------------------------------ */
 /* Content — verbatim from the brief.                                  */
@@ -15,9 +15,13 @@ const SCENES = [
   { id: 'about', label: 'من نحن؟', theme: 'light' },
   { id: 'why', label: 'لماذا رحائل؟', theme: 'light' },
   { id: 'services', label: 'خدماتنا', theme: 'light' },
-  { id: 'partner', label: 'مبادرة الشريك السياحي', theme: 'light' },
-  { id: 'top-partner', label: 'الشريك المميز', theme: 'dark' },
   { id: 'packages', label: 'تصميم الباقات السياحية', theme: 'light' },
+  { id: 'program', label: 'برنامج الشريك السياحي', theme: 'dark' },
+  { id: 'challenges', label: 'التحديات', theme: 'light' },
+  { id: 'tracks', label: 'المسارات السياحية', theme: 'light' },
+  { id: 'mechanism', label: 'آلية التنفيذ', theme: 'light' },
+  { id: 'parties', label: 'الأطراف وأدوارها', theme: 'dark' },
+  { id: 'outputs', label: 'مخرجات الاجتماع', theme: 'light' },
 ] as const;
 type SceneId = (typeof SCENES)[number]['id'];
 const scene = (id: SceneId) => {
@@ -43,14 +47,42 @@ const SERVICES = [
   { n: '02', title: 'التشغيل والإدارة السياحية', img: MEDIA.servicesOperations },
 ];
 
-const PARTNER_MODELS = [
-  { code: 'B2B', text: 'شراكات مع الشركات السياحية.', Icon: IconB2B },
-  { code: 'B2C', text: 'البيع المباشر للعملاء.', Icon: IconB2C },
-  { code: 'B2B2C', text: 'التعاون مع الوسطاء للوصول للعملاء.', Icon: IconB2B2C },
-  { code: 'Affiliate Marketing', text: 'التسويق بالعمولة مقابل الحجوزات.', Icon: IconAffiliate },
+/* ---------- Tourism partner programme (client-supplied text) ---------- */
+const CHALLENGES = [
+  { who: 'الفرد الحائلي', text: 'تصله طلبات لتنظيم زيارات، لكنه يواجه صعوبة في التنسيق وتقديم تجربة احترافية والاستفادة اقتصاديًا.', Icon: IconLocal },
+  { who: 'السائح', text: 'يحتاج جهة واحدة تنظم الرحلة كاملة، مع وضوح الخيارات والأسعار.', Icon: IconTraveler },
+  { who: 'مزود الخدمة', text: 'يواجه تحديات التسويق والوصول للعملاء وتسعير الخدمات بصورة مناسبة.', Icon: IconProvider },
 ];
 
-const TOP_PARTNER_GOALS = ['توسيع شبكة الشراكات', 'استقطاب الشركات الكبرى', 'زيادة المبيعات والحجوزات'];
+const TRACKS: Array<{ t: string; img?: string; clip?: { src: string; poster: string } }> = [
+  { t: 'السياحة الفلكية', clip: MEDIA.video.astronomy },
+  { t: 'السياحة الأثرية', img: MEDIA.tracks.heritage },
+  { t: 'السياحة الطبيعية', img: MEDIA.tracks.nature },
+  { t: 'سياحة الشركات', img: MEDIA.tracks.corporate },
+  { t: 'السياحة النسائية', img: MEDIA.tracks.women },
+];
+
+const MECHANISM = [
+  'تشكيل فريق سياحي متخصص لتطوير الباقات وتسعيرها وإدارة الجودة والشراكات.',
+  'ترشيح مديري المسارات ومزودي خدمات الإقامة والضيافة والتجارب وفق معايير واضحة.',
+  'تفعيل شبكة الشركاء السياحيين لاستقطاب العملاء والشركات وتحويل الطلبات إلى حجوزات.',
+  'إطلاق تجريبي لعدد محدود من الباقات، وقياس المبيعات ورضا العملاء قبل التوسع.',
+];
+
+const PARTIES = [
+  { who: 'الشريك السياحي', text: 'استقطاب الفرص والعملاء من خلال شبكة علاقاته.' },
+  { who: 'مزود الخدمة', text: 'تنفيذ الإقامة والضيافة والتجارب بالجودة المتفق عليها.' },
+  { who: 'السائح', text: 'اختيار الباقة والاستفادة من تجربة متكاملة.' },
+];
+const RAHAIL_ROLE = { who: 'شركة رحائل والفريق السياحي', text: 'تصميم الباقات، إدارة الحجوزات والتشغيل والشراكات.' };
+
+const OUTPUTS = [
+  'اعتماد هوامش الربح وآلية توزيع العمولات.',
+  'وضع خطة لاستقطاب الشخصيات والشركاء المستهدفين.',
+  'ترشيح مديري المسارات ومزودي الخدمات ذوي الجودة العالية.',
+  'تحديد مستويات العضوية ومزايا كل مستوى.',
+  'اعتماد تصور الحملة التسويقية وموعد الإطلاق.',
+];
 
 const PACKAGE_STEPS = [
   'دراسة الفئة المستهدفة واهتماماتها.',
@@ -96,6 +128,7 @@ function Clip({ src, poster, className = '' }: { src: string; poster: string; cl
 /* The flight clip is used only on the cover, as the guest's arrival —
    it is not presented as an experience. */
 const EXPERIENCES = [
+  { t: 'الفلك', clip: MEDIA.video.astronomy },
   { t: 'الخيول', clip: MEDIA.video.horses },
   { t: 'البقيات', clip: MEDIA.video.buggies },
 ];
@@ -295,76 +328,10 @@ export function RahailPresentation() {
           </div>
         </section>
 
-        {/* ================= 5. PARTNER INITIATIVE ================= */}
-        <section {...scene('partner')} className="rh-scene rh-paper rh-partner">
-          <div className="rh-container">
-            <div className="rh-partner__head">
-              <Eyebrow n={5}>RAHAIL</Eyebrow>
-              <h2 className="rh-h2" data-split>
-                <span className="rh-line"><span>مبادرة الشريك السياحي</span></span>
-                <span className="rh-line"><span className="rh-en rh-h2__en">RAHAIL</span></span>
-              </h2>
-              <p className="rh-lead" data-reveal>إنشاء شبكة شركاء لتسويق وبيع خدمات وباقات رحائل من خلال:</p>
-            </div>
-
-            <div className="rh-models">
-              {PARTNER_MODELS.map(({ code, text, Icon }, i) => (
-                <article key={code} className="rh-model">
-                  <div className="rh-model__top">
-                    <span className="rh-model__icon"><Icon /></span>
-                    <span className="rh-model__n rh-en">{pad(i + 1)}</span>
-                  </div>
-                  <h3 className="rh-model__code rh-en">{code}</h3>
-                  <p className="rh-model__text">{text}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-          <Zigzag className="rh-zig--foot" />
-        </section>
-
-        {/* ================= 6. TOP PARTNER ================= */}
-        <section {...scene('top-partner')} className="rh-scene rh-top">
-          <div className="rh-top__bg">
-            <Photo src={MEDIA.topPartner} parallax={10} />
-          </div>
-          <div className="rh-top__veil" />
-          <div className="rh-top__giant rh-en" aria-hidden>TOP PARTNER</div>
-
-          <div className="rh-container rh-top__grid">
-            <div className="rh-top__copy">
-              <Eyebrow n={6}>TOP PARTNER</Eyebrow>
-              <h2 className="rh-h2" data-split>
-                <span className="rh-line"><span>الشريك المميز</span></span>
-              </h2>
-              <p className="rh-lead rh-lead--light" data-reveal>
-                استقطاب أصحاب العلاقات الواسعة القادرين على جلب الشركات الكبرى، مقابل عمولات وحوافز حسب الإنجازات.
-              </p>
-            </div>
-
-            <aside className="rh-reward">
-              <span className="rh-reward__shine" aria-hidden />
-              <span className="rh-reward__label">المكافأة الخاصة</span>
-              <p className="rh-reward__main">يوم مجاني في أحد منتجعات رحائل</p>
-              <span className="rh-reward__rule" aria-hidden />
-              <p className="rh-reward__note">خارج المواسم والعطلات الأسبوعية، وفق موعد تحدده الإدارة.</p>
-            </aside>
-          </div>
-
-          <div className="rh-container rh-goals">
-            <span className="rh-goals__label">الهدف:</span>
-            <ul>
-              {TOP_PARTNER_GOALS.map((g) => (
-                <li key={g} className="rh-goal-chip">{g}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* ================= 7. TOURISM PACKAGES ================= */}
+        {/* ================= 5. TOURISM PACKAGES ================= */}
         <section {...scene('packages')} className="rh-scene rh-paper rh-packages">
           <div className="rh-container rh-packages__intro">
-            <Eyebrow n={7}>TOURISM PACKAGES</Eyebrow>
+            <Eyebrow n={5}>TOURISM PACKAGES</Eyebrow>
             <h2 className="rh-h2" data-split>
               <span className="rh-line"><span>تصميم الباقات السياحية</span></span>
             </h2>
@@ -428,6 +395,150 @@ export function RahailPresentation() {
             <p className="rh-packages__goaltext" data-reveal>
               إدارة رحلة الباقة من التصميم والتجهيز حتى التنفيذ وانتهاء تجربة السائح.
             </p>
+          </div>
+
+        </section>
+
+        {/* ================= 6. PARTNER PROGRAMME ================= */}
+        <section {...scene('program')} className="rh-scene rh-program">
+          <div className="rh-program__bg">
+            <Photo src={MEDIA.program} parallax={10} />
+          </div>
+          <div className="rh-program__veil" />
+          <div className="rh-container rh-program__inner">
+            <Eyebrow n={6}>RAHAIL</Eyebrow>
+            <h2 className="rh-h2 rh-program__title" data-split>
+              <span className="rh-line"><span>برنامج الشريك السياحي</span></span>
+              <span className="rh-line"><span className="rh-program__co">شركة رحائل</span></span>
+            </h2>
+            <p className="rh-program__sub" data-reveal>تصور تنفيذي مختصر لاجتماع الشركاء – منطقة حائل</p>
+            <div className="rh-idea">
+              <span className="rh-idea__label">الفكرة والهدف</span>
+              <p className="rh-idea__text">
+                برنامج عضوية يربط أصحاب العلاقات المحلية بمزودي الخدمات السياحية والسياح، لتصميم رحلات متكاملة في حائل
+                وتسويقها عبر شبكة شركاء، مع تنظيم الأدوار والعمولات ورفع جودة التجربة.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 7. CHALLENGES ================= */}
+        <section {...scene('challenges')} className="rh-scene rh-paper rh-challenges">
+          <div className="rh-container">
+            <Eyebrow n={7}>RAHAIL</Eyebrow>
+            <h2 className="rh-h2" data-split>
+              <span className="rh-line"><span>التحديات التي يعالجها البرنامج</span></span>
+            </h2>
+            <div className="rh-cards rh-cards--3" data-stagger data-draw>
+              {CHALLENGES.map(({ who, text, Icon }) => (
+                <article key={who} className="rh-card">
+                  <span className="rh-card__icon"><Icon /></span>
+                  <h3 className="rh-card__title">{who}</h3>
+                  <p className="rh-card__text">{text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+          <Zigzag className="rh-zig--foot" />
+        </section>
+
+        {/* ================= 8. TRACKS ================= */}
+        <section {...scene('tracks')} className="rh-scene rh-paper rh-paper--deep rh-tracks">
+          <div className="rh-container">
+            <Eyebrow n={8}>RAHAIL</Eyebrow>
+            <h2 className="rh-h2" data-split>
+              <span className="rh-line"><span>المسارات السياحية المقترحة</span></span>
+            </h2>
+            <ol className="rh-tracks__list" data-stagger>
+              {TRACKS.map((tr, i) => (
+                <li key={tr.t} className="rh-track">
+                  <div className="rh-track__arch">
+                    {tr.clip ? <Clip src={tr.clip.src} poster={tr.clip.poster} /> : <Photo src={tr.img!} className="rh-kb" />}
+                    <span className="rh-reel__frame" aria-hidden />
+                  </div>
+                  <span className="rh-track__n rh-en">{pad(i + 1)}</span>
+                  <span className="rh-track__t">{tr.t}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ================= 9. MECHANISM ================= */}
+        <section {...scene('mechanism')} className="rh-scene rh-paper rh-mech">
+          <div className="rh-container rh-mech__grid">
+            <div className="rh-mech__head">
+              <Eyebrow n={9}>RAHAIL</Eyebrow>
+              <h2 className="rh-h2" data-split>
+                <span className="rh-line"><span>آلية التنفيذ</span></span>
+              </h2>
+            </div>
+            <ol className="rh-mech__list">
+              <span className="rh-mech__line" aria-hidden><i /></span>
+              {MECHANISM.map((t, i) => (
+                <li key={t} className="rh-mech__item">
+                  <span className="rh-mech__n rh-en">{pad(i + 1)}</span>
+                  <span className="rh-mech__dot" aria-hidden />
+                  <p className="rh-mech__t">{t}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <Zigzag className="rh-zig--foot" />
+        </section>
+
+        {/* ================= 10. PARTIES ================= */}
+        <section {...scene('parties')} className="rh-scene rh-parties">
+          <Zigzag className="rh-parties__zig" />
+          <div className="rh-container">
+            <Eyebrow n={10}>RAHAIL</Eyebrow>
+            <h2 className="rh-h2" data-split>
+              <span className="rh-line"><span>الأطراف وأدوارها</span></span>
+            </h2>
+            <div className="rh-hub">
+              <div className="rh-hub__core" data-reveal>
+                <Logo className="rh-hub__logo" />
+                <h3 className="rh-hub__who">{RAHAIL_ROLE.who}</h3>
+                <p className="rh-hub__text">{RAHAIL_ROLE.text}</p>
+              </div>
+              <svg className="rh-hub__net" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden>
+                <path pathLength={1} d="M500 0 V40 M166 80 V40 H834 V80 M500 40 V80" />
+              </svg>
+              <div className="rh-cards rh-cards--3" data-stagger>
+                {PARTIES.map((p) => (
+                  <article key={p.who} className="rh-card rh-card--dark">
+                    <h3 className="rh-card__title">{p.who}</h3>
+                    <p className="rh-card__text">{p.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+            <aside className="rh-commission" data-reveal>
+              <span className="rh-reward__shine" aria-hidden />
+              <span className="rh-commission__pct">٥٪</span>
+              <p className="rh-commission__text">عمولة بنسبة ٥٪ مقابل تسجيل كل عميل جديد.</p>
+            </aside>
+          </div>
+        </section>
+
+        {/* ================= 11. OUTPUTS ================= */}
+        <section {...scene('outputs')} className="rh-scene rh-paper rh-outputs">
+          <div className="rh-container rh-outputs__grid">
+            <div>
+              <Eyebrow n={11}>RAHAIL</Eyebrow>
+              <h2 className="rh-h2" data-split>
+                <span className="rh-line"><span>مخرجات اجتماع</span></span>
+                <span className="rh-line"><span>الشريك السياحي</span></span>
+              </h2>
+            </div>
+            <ul className="rh-outputs__list" data-stagger data-draw>
+              {OUTPUTS.map((t) => (
+                <li key={t} className="rh-output">
+                  <span className="rh-output__check"><IconCheck /></span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="rh-closing">
