@@ -84,15 +84,6 @@ const OUTPUTS = [
   'اعتماد تصور الحملة التسويقية وموعد الإطلاق.',
 ];
 
-const PACKAGE_STEPS = [
-  'دراسة الفئة المستهدفة واهتماماتها.',
-  'اختيار الوجهات والتجارب المناسبة.',
-  'تنسيق الإقامة والضيافة والنقل والأنشطة والإرشاد.',
-  'تحديد التكلفة وسعر البيع وهامش الربح.',
-  'تصميم الباقة وتجهيزها للتسويق.',
-  'المتابعة والإشراف على التنفيذ وضمان جودة التجربة.',
-];
-
 const TAGLINE = 'شركة متخصصة في تطوير الوجهات والمشاريع السياحية.';
 const pad = (n: number) => String(n).padStart(2, '0');
 
@@ -368,25 +359,6 @@ export function RahailPresentation() {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-
-          <div className="rh-steps">
-            <Zigzag className="rh-steps__zig" />
-            <div className="rh-steps__head rh-container">
-              <span className="rh-steps__title rh-en">TOURISM PACKAGES</span>
-              <div className="rh-steps__progress" aria-hidden><i /></div>
-            </div>
-            <div className="rh-steps__viewport">
-              <ol className="rh-steps__track">
-                {PACKAGE_STEPS.map((t, i) => (
-                  <li key={t} className="rh-step">
-                    <span className="rh-step__n rh-en">{pad(i + 1)}</span>
-                    <span className="rh-step__dot" aria-hidden />
-                    <p className="rh-step__t">{t}</p>
-                  </li>
-                ))}
-              </ol>
             </div>
           </div>
 
