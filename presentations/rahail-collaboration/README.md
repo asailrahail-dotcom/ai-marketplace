@@ -3,6 +3,7 @@
 عرض تقديمي من 8 شرائح (16:9، عربي RTL) لاجتماع تعريفي وعصف ذهني مع شريك.
 
 - **العرض القابل للتحرير والتقديم:** نسخة Claude Slides (تُحمَّل منها نسخة PowerPoint ‏.pptx أو PDF من قائمة التنزيل).
+- `rahail-collaboration-animated.pptx` — عرض PowerPoint متحرك: خلفيات فيديو تعمل تلقائياً، ظهور تدريجي للمحتوى، وانتقالات تلاشٍ.
 - `rahail-collaboration-animated.mp4` — نسخة فيديو متحركة للعرض كاملاً (57 ثانية، 1080p).
 - `rahail-collaboration-deck.pdf` — نسخة PDF للمراجعة والطباعة (لقطات ثابتة).
 - `slides/` و`deck.json` — مصدر الشرائح.
