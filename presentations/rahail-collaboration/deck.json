@@ -1,0 +1,18 @@
+{
+  "v": 4,
+  "createdOnFiles": {"v": 1, "at": "2026-11-10T11:45:00Z"},
+  "lists": "css",
+  "title": "رحائل — لقاء التعاون المشترك",
+  "cover": "cover",
+  "order": ["cover", "agenda", "q1", "q2", "q3", "q4", "open", "thanks"],
+  "sections": {
+    "s1": {"description": "الافتتاح: الترحيب بالشريك وأجندة اللقاء", "start": "cover"},
+    "s2": {"description": "محاور العصف الذهني: أربعة أسئلة لتطوير التجارب السياحية للشركات", "start": "q1"},
+    "s3": {"description": "الحوار المفتوح والختام", "start": "open"}
+  },
+  "faces": {
+    "noto-kufi-arabic": {"family": "Noto Kufi Arabic", "href": "https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300..700&display=swap"},
+    "ibm-plex-sans-arabic": {"family": "IBM Plex Sans Arabic", "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap"}
+  },
+  "designSystems": []
+}
